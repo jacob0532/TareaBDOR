@@ -31,6 +31,15 @@ CREATE TABLE IF NOT EXISTS public."VentasXProducto"
     PRIMARY KEY ("idVentasXProducto")
 );
 
+CREATE TABLE IF NOT EXISTS public."Proveedor"
+(
+    "proveedorPK" serial NOT NULL,
+    "cedulaJuridica" bigint NOT NULL,
+    duenno persona NOT NULL,
+    "nombreEmpresa" character varying,
+    PRIMARY KEY ("proveedorPK")
+);
+
 CREATE TABLE IF NOT EXISTS public."Producto"
 (
     "idProductoPK" serial NOT NULL,
