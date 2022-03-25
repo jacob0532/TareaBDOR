@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public."CategoriasxProducto"
 CREATE TABLE IF NOT EXISTS public."Inventario"
 (
     "idInventarioPK" serial NOT NULL,
-    nombre integer NOT NULL,
+    nombre character varying NOT NULL,
     cantidad integer NOT NULL,
     "fechaDeCompra" date NOT NULL,
     PRIMARY KEY ("idInventarioPK")
