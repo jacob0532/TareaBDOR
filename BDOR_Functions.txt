@@ -1,0 +1,89 @@
+---------------------------------CRUD CLIENTES---------------------------------
+/*
+Función: Clientes_read
+Entradas: Ninguna
+Salidas: Bit que indica el éxito de la operación
+Descripción: Obtiene los clientes y todos sus datos
+*/
+CREATE OR REPLACE FUNCTION clientes_read() 
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+SELECT "clientePK", informacion, "metodoDePago"
+	FROM public."Cliente";
+	IF NOT FOUND THEN
+		RETURN 0;
+	ELSE
+		RETURN 1;
+	END IF;
+END;
+$$;
+
+/*
+Función: Clientes_create
+Entradas: Nombre, apellido1, apellido2, edad, cedula, metodo de pago
+Salidas: Bit que indica el éxito de la operación
+Descripción: Inserta un nuevo cliente a la base de datos; Forma un objeto cliente que es insertado junto con un método
+de pago definido por el usuario. No recibe objetos tipo "persona"
+*/
+CREATE OR REPLACE FUNCTION clientes_create(IN nombre character varying, IN apellido1 character varying, IN apellido2 character varying, IN cedula integer,
+										  IN edad integer, IN metodo_de_pago character varying) -- Agrega un nuevo cliente a la base de datos
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+INSERT INTO public."Cliente"(informacion, "metodoDePago") -- Cualquier atributo que lleve mayusculas debe ir entre comillas por cuestiones de case sensitivity
+	VALUES ((nombre,cedula,apellido1,apellido2,edad)::persona,metodo_de_pago);
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
+/*
+Función: Clientes_update
+Entradas: identificador de un cliente, metodo de pago nuevo
+Salidas: Bit que indica el éxito de la operación
+Descripción: Actualiza el método de pago asociado con un cliente
+*/
+CREATE OR REPLACE FUNCTION clientes_update(IN clienteId int, IN nuevoMetodoPago character varying)
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+UPDATE public."Cliente"
+	SET "metodoDePago"= nuevoMetodoPago
+	WHERE "clientePK" = clienteId;
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
+/*
+Función: Clientes_delete
+Entradas: identificador de un cliente
+Salidas: Bit que indica el éxito de la operación
+Descripción: Elimina los datos de un cliente de la base de datos
+*/
+CREATE OR REPLACE FUNCTION clientes_delete(IN clienteId int)
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+DELETE FROM public."Cliente"
+	WHERE "clientePK" = clienteId;
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
