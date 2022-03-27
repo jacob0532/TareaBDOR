@@ -6,18 +6,13 @@ Salidas: Bit que indica el éxito de la operación
 Descripción: Obtiene los clientes y todos sus datos
 */
 CREATE OR REPLACE FUNCTION clientes_read() 
-RETURNS BIT
+RETURNS TABLE(PK int, "informacion" Persona, "metodo de pago" character varying)
 LANGUAGE plpgsql
 AS
 $$
 BEGIN
-SELECT "clientePK", informacion, "metodoDePago"
-	FROM public."Cliente";
-	IF NOT FOUND THEN
-		RETURN 0;
-	ELSE
-		RETURN 1;
-	END IF;
+RETURN QUERY SELECT cl."clientePK", cl."informacion", cl."metodoDePago"
+	FROM public."Cliente" cl;
 END;
 $$;
 
