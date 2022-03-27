@@ -82,3 +82,78 @@ ELSE
 END IF;
 END;
 $$;
+
+
+
+---------------------------------CRUD PROVEEDORES---------------------------------
+/*
+Mostrar Proveedores
+*/
+CREATE OR REPLACE FUNCTION proveedor_read() 
+RETURNS TABLE(PK int, "cedula juridica" bigint,"duenno" Persona, "nombre de empresa" character varying)
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+RETURN QUERY SELECT pr."proveedorPK", pr."cedulaJuridica", pr."duenno", pr."nombreEmpresa"
+	FROM public."Proveedor" pr;
+END;
+$$;
+
+/*
+Insertar Proveedores
+*/
+CREATE OR REPLACE FUNCTION proveedor_create(IN cedula_juridica bigint, IN nombre character varying, IN apellido1 character varying, IN apellido2 character varying, IN cedula integer,
+										  IN edad integer, IN nombre_empresa character varying) -- Agrega un nuevo Proveedor a la base de datos
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+INSERT INTO public."Proveedor"("cedulaJuridica", duenno,"nombreEmpresa") -- Cualquier atributo que lleve mayusculas debe ir entre comillas por cuestiones de case sensitivity
+	VALUES (cedula_juridica,(nombre,cedula,apellido1,apellido2,edad)::persona,nombre_empresa);
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
+/*
+Función: actualizar proveedores
+*/
+CREATE OR REPLACE FUNCTION proveedor_update(IN proveedorId int, IN nueva_cedula_juridica bigint,
+											IN nuevo_nombre_empresa character varying)
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+UPDATE public."Proveedor"
+	SET "cedulaJuridica"= nueva_cedula_juridica, "nombreEmpresa"= nuevo_nombre_empresa
+	WHERE "proveedorPK" = proveedorId;
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
+/*
+EliminarProveedor
+*/
+CREATE OR REPLACE FUNCTION proveedor_delete(IN proveedorId int)
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+DELETE FROM public."Proveedor"
+	WHERE "proveedorPK" = proveedorId;
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
