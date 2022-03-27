@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS public."Venta"
     "idVentaPK" serial NOT NULL,
     "idEmpleadoFK" integer NOT NULL,
     "idClienteFK" integer NOT NULL,
-    ventas integer NOT NULL,
+    total integer NOT NULL,
     PRIMARY KEY ("idVentaPK")
 );
 
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS public."VentasXProducto"
     "idVentasXProducto" serial NOT NULL,
     "idVentasFK" integer NOT NULL,
     "idProductoFK" integer NOT NULL,
+    cantidad integer NOT NULL,
     PRIMARY KEY ("idVentasXProducto")
 );
 

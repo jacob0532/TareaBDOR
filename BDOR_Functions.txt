@@ -1,3 +1,22 @@
+---------------------------CREATE EMPLEADOS---------------------
+
+CREATE OR REPLACE FUNCTION Empleado_create(IN nombre character varying, IN apellido1 character varying, IN apellido2 character varying, IN cedula integer,
+										  IN edad integer, IN numeroDeEmpleado integer) -- Agrega un nuevo empleado a la base de datos
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+INSERT INTO public."Empleado"(informacion, "numeroDeEmpleadoPK") -- Cualquier atributo que lleve mayusculas debe ir entre comillas por cuestiones de case sensitivity
+	VALUES ((nombre,cedula,apellido1,apellido2,edad)::persona,numeroDeEmpleado);
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
+
 ---------------------------------CRUD CLIENTES---------------------------------
 /*
 Función: Clientes_read
