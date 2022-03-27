@@ -266,3 +266,12 @@ ELSE
 END IF;
 END;
 $$;
+
+--------------------------------------Consulta------------------------------
+SELECT (informacion)."nombre", public."Empleado"."numeroDeEmpleadoPK", public."Producto"."nombre" as "Nombre de producto", SUM(distinct public."VentasXProducto"."cantidad")
+FROM public."Empleado"
+INNER JOIN public."Venta" on public."Venta"."idEmpleadoFK" = public."Empleado"."numeroDeEmpleadoPK"
+INNER JOIN public."VentasXProducto" on public."Venta"."idVentaPK" = public."VentasXProducto"."idVentasFK"
+INNER JOIN public."Producto" on public."VentasXProducto"."idProductoFK" = public."Producto"."idProductoPK"
+GROUP BY (informacion)."nombre", public."Empleado"."numeroDeEmpleadoPK",public."Producto"."nombre"
+ORDER BY SUM(public."VentasXProducto"."cantidad") DESC LIMIT 3;
