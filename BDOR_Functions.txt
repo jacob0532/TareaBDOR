@@ -157,3 +157,93 @@ ELSE
 END IF;
 END;
 $$;
+
+
+---------------------------------CRUD PRODUCTOS---------------------------------
+/*
+MostrarProducto
+*/
+CREATE OR REPLACE FUNCTION producto_read() 
+RETURNS TABLE(PK int,"nombre" character varying,"precio" integer,"caracteristicas" text,
+			  "categoria" Categoriasxproducto)
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+RETURN QUERY SELECT pro."idProductoPK", pro."nombre", pro."precio", pro."caracteristicas",
+    pro."categoria"
+	FROM public."Producto" pro;
+END;
+$$;
+
+/*
+InsertarProducto
+nombre producto
+precio producto
+caracteristicas producto
+
+nombre categoria
+nombre inventario
+cantidad inventario
+valor monetario inventario
+*/
+CREATE OR REPLACE FUNCTION producto_create(IN nombre character varying, IN precio integer, 
+										   IN caracteristicas text, IN nombre_categoria character varying,
+										   IN nombre_inventario character varying, 
+										   IN cantidad_inventario integer,
+										  IN valor_inventario integer) -- Agrega un nuevo cliente a la base de datos
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+INSERT INTO public."Producto"(nombre, precio, caracteristicas, 
+							  categoria) -- Cualquier atributo que lleve mayusculas debe ir entre comillas por cuestiones de case sensitivity
+	VALUES (nombre, precio, caracteristicas, 
+		(nombre_categoria,(nombre_inventario, cantidad_inventario, valor_inventario)::Inventario)::Categoriasxproducto
+		   );
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
+/*
+ActualizarProducto
+*/
+CREATE OR REPLACE FUNCTION producto_update(IN productoId int, IN nuevoNombre character varying,
+										  IN nuevoPrecio integer, IN nuevoCaracteristicas text)
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+UPDATE public."Producto"
+	SET "nombre"= nuevoNombre, "precio"= nuevoPrecio, "caracteristicas"= nuevoCaracteristicas
+	WHERE "idProductoPK" = productoId;
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
+/*
+EliminarProducto
+*/
+CREATE OR REPLACE FUNCTION producto_delete(IN productoId int)
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+DELETE FROM public."Producto"
+	WHERE "idProductoPK" = productoId;
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
