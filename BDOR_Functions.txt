@@ -266,3 +266,53 @@ ELSE
 END IF;
 END;
 $$;
+
+
+
+/*
+ventas_read()
+Mostrar factura
+*/
+CREATE OR REPLACE FUNCTION factura() 
+RETURNS TABLE(PK int,"empleado" integer,"cliente" integer,"total" integer)
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+RETURN QUERY SELECT ven."idVentaPK", ven."idEmpleadoFK", ven."idClienteFK", ven."total"
+	FROM public."Venta" ven;
+END;
+$$;
+
+/*
+Insertar ventas x producto
+*/
+CREATE OR REPLACE FUNCTION ventasXproducto_create() -- Agrega un nuevo cliente a la base de datos
+RETURNS BIT
+LANGUAGE plpgsql
+AS
+$$
+declare
+   id_producto    integer := (SELECT pro."idProductoPK" FROM public."Producto" pro ORDER BY RANDOM() LIMIT 1);
+   id_cliente integer := (SELECT emp."numeroDeEmpleadoPK" FROM public."Empleado" emp ORDER BY RANDOM() LIMIT 1);
+   id_empleado  integer := (SELECT cli."clientePK" FROM public."Cliente" cli ORDER BY RANDOM() LIMIT 1);
+   monto integer := (SELECT pro."precio" FROM public."Producto" pro WHERE pro."idProductoPK" = id_producto);
+   var_id integer := 0;
+BEGIN
+
+
+IF EXISTS((SELECT ven."idVentaPK" FROM public."Venta" ven WHERE ven."idEmpleadoFK" = id_empleado))THEN
+	UPDATE public."Venta" SET total= total + monto  WHERE "idEmpleadoFK" = id_empleado;
+	var_id := (SELECT ven."idVentaPK" FROM public."Venta" ven WHERE ven."idEmpleadoFK" = id_empleado);
+ELSE
+	INSERT INTO public."Venta"(idEmpleadoFK,idClienteFK,total)VALUES(id_empleado,id_cliente,monto);
+	var_id :=  (SELECT currval('Venta_idVentaPK_seq'));
+END IF;
+INSERT INTO public."VentasXProducto"(idVentasFK,idProductoFK,cantidad)VALUES(var_id,id_producto,1);
+IF NOT FOUND THEN
+	RETURN 0;
+ELSE
+	RETURN 1;
+END IF;
+END;
+$$;
