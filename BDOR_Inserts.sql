@@ -22,13 +22,24 @@ SELECT public.empleado_create('Margaretta', 'Mepham', 'Parlett', 73, 9083187, 37
 SELECT public.empleado_create('Iggy', 'Rames', 'Sutheran', 43, 6040411, 46126402);
 SELECT public.empleado_create('Manfred', 'Engledow', 'Kordovani', 55, 7850283, 36861443);
 ---------------------------------Productos-----------------------------------------------
-SELECT public.producto_create (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('clavos', 5662, 'systemic', 'materiales', 'B', 65, 368030);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario,  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('hacha', 3314, 'Horizontal', 'herramientas', 'C', 41, 135874);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario,  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('serrucho', 12708, 'Persistent', 'herramientas', 'C', 53, 673524);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('atomizador', 14678, 'hub', 'herramientas', 'C', 58, 851324);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('tuercas', 5317, 'Optimized', 'materiales', 'D', 73, 388141);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('alicate', 14790, 'capability', 'herramientas', 'A', 77, 1138830);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('aserrin', 13684, 'Reduced', 'materiales', 'D', 81, 2208404);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('arena para gatos', 601, 'process improvement', 'materiales', 'B', 97, 58297);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('desarmador', 7918, 'static', 'herramientas', 'B', 49, 387982);
-SELECT public.producto_create  (nombre, precio, caracteristicas, nombre_categoria, nombre_inventario, cantidad_inventario, valor_inventario) values ('palin', 14594, 'local', 'materiales', 'A', 100, 1459400);
+SELECT public.producto_create('clavos', 5662, 'systemic', 'materiales', 'B', 65, 368030);
+SELECT public.producto_create('hacha', 3314, 'Horizontal', 'herramientas', 'C', 41, 135874);
+SELECT public.producto_create('serrucho', 12708, 'Persistent', 'herramientas', 'C', 53, 673524);
+SELECT public.producto_create('atomizador', 14678, 'hub', 'herramientas', 'C', 58, 851324);
+SELECT public.producto_create('tuercas', 5317, 'Optimized', 'materiales', 'D', 73, 388141);
+SELECT public.producto_create('alicate', 14790, 'capability', 'herramientas', 'A', 77, 1138830);
+SELECT public.producto_create('aserrin', 13684, 'Reduced', 'materiales', 'D', 81, 2208404);
+SELECT public.producto_create('arena para gatos', 601, 'process improvement', 'materiales', 'B', 97, 58297);
+SELECT public.producto_create('desarmador', 7918, 'static', 'herramientas', 'B', 49, 387982);
+SELECT public.producto_create('palin', 14594, 'local', 'materiales', 'A', 100, 1459400);
+-----------------------------Proveedores--------------------------------------------------
+SELECT public.proveedor_create (22830, 'Maddie', 'Kift', 'Cromblehome', 8765297, 45, 'Gusikowski, Gislason and Mills');
+SELECT public.proveedor_create (3326, 'Sarajane', 'Chesnay', 'Schwartz', 8285534, 32, 'Feil, Corwin and McClure');
+SELECT public.proveedor_create (57623, 'Ernaline', 'Agron', 'Dudny', 1124146, 49, 'Schmidt-Jerde');
+SELECT public.proveedor_create (35746, 'Stanley', 'Heinig', 'Tack', 8599526, 52, 'Schmitt and Sons');
+SELECT public.proveedor_create (77919, 'Verine', 'Bound', 'Stribbling', 6209759, 28, 'Stanton LLC');
+SELECT public.proveedor_create (8600, 'Bobbye', 'Sattin', 'Tortice', 9123382, 63, 'Douglas Group');
+SELECT public.proveedor_create (89787, 'Amalea', 'McIlwrick', 'Stuer', 4601696, 53, 'Thompson LLC');
+SELECT public.proveedor_create (5638, 'Hamlin', 'Revie', 'Pietrzyk', 4769788, 38, 'Nader, Flatley and Lang');
+SELECT public.proveedor_create (64377, 'Robyn', 'Thomassin', 'Clayborn', 3451888, 31, 'Cruickshank, Spencer and Ratke');
+SELECT public.proveedor_create (71198, 'Lianne', 'Teck', 'Asaaf', 9685345, 53, 'Jones Inc');
